@@ -1,0 +1,5 @@
+lexik_jwt_authentication:
+    secret_key: '%env(resolve:JWT_SECRET_KEY)%' # Path to your private key
+    public_key: '%env(resolve:JWT_PUBLIC_KEY)%'  # Path to your public key
+    pass_phrase: '%env(JWT_PASSPHRASE)%'         # Your passphrase
+    token_ttl: 3600                              # Token time to live in seconds

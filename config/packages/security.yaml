@@ -1,0 +1,60 @@
+security:
+    password_hashers:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        
+        api_products:
+            pattern: ^/api/products
+            stateless: true
+            security: false
+        
+        api_login:
+            pattern: ^/api/login
+            stateless: true
+            security: false  # This line explicitly disables security checks
+            json_login:
+                check_path: /api/login
+        
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: app_user_provider
+            json_login:
+                check_path: /api/login
+                username_path: username
+                password_path: password
+                success_handler: App\Security\LoginSuccessHandler
+            jwt: ~
+            entry_point: App\Security\ApiEntryPoint
+            access_denied_handler: App\Security\AccessDeniedHandler
+            
+
+        main:
+            pattern: ^/
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\AppCustomAuthenticator
+            logout:
+                path: app_logout
+
+    access_control:
+        # Allow public access to /api/products
+        - { path: ^/api/products, roles: PUBLIC_ACCESS }
+
+        # Other access control rules
+        - { path: ^/api/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/products, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/product/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }

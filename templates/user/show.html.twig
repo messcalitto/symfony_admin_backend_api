@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>User Details</title>
+    </head>
+    <body>
+        <h1>User Details</h1>
+        <p>Name: {{ user.name }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Roles: {{ user.roles|join(', ') }}</p>
+        <p>Created At: {{ user.createdAt|date('Y-m-d H:i:s') }}</p>
+        <p>Updated At: {{ user.updatedAt|date('Y-m-d H:i:s') }}</p>
+        <a href="{{ path('user_index') }}">Back to Users</a>
+    </body>
+</html>

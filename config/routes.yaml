@@ -1,5 +1,34 @@
 controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+    resource: '../src/Controller/'
     type: attribute
+
+api_login:
+    path: /api/login
+    controller: App\Controller\ApiLoginController::login
+    methods: POST
+
+not_found:
+    path: /{url}
+    controller: App\Controller\ErrorController::notFound
+    requirements:
+        url: .*
+
+category_index:
+    path: /categories
+    controller: App\Controller\CategoryController::index
+    methods: GET
+
+category_new:
+    path: /category/new
+    controller: App\Controller\CategoryController::new
+    methods: [GET, POST]
+
+category_edit:
+    path: /category/edit/{id}
+    controller: App\Controller\CategoryController::edit
+    methods: [GET, POST]
+
+category_delete:
+    path: /category/delete/{id}
+    controller: App\Controller\CategoryController::delete
+    methods: POST

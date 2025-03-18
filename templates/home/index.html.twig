@@ -1,0 +1,83 @@
+{# filepath: /templates/home/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <body>
+        <style>
+            .container {
+                width: 80%;
+                margin: 0 auto;
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .cell {
+                
+                width: 300px;
+                border: 1px solid #ccc;
+                padding: 10px;
+                display: flex;
+                margin-bottom: 10px;
+                margin-right:10px;
+                float: left;
+                height: 180px;
+            }
+
+            .cell .desc {
+                padding-left: 10px;
+            }
+
+            .add-product {
+                margin-bottom: 20px;
+            }
+            h4 {
+                font-size: 1rem;
+            }
+        </style>
+
+        <h1>Products</h1>
+
+        {% for label, messages in app.flashes %}
+            <div class="alert alert-{{ label }}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <div class="add-product">
+            <a href="{{ path('product_new') }}">
+                <button>Add new product</button>
+            </a>
+        </div>
+        
+        <div class="container">
+            {% for product in products %}
+            <div class="cell">
+                <div >
+                    {% if product.image is not null %}
+                        <img src="{{ asset('uploads/' ~ product.image[0]) }}" width="100" alt="{{ product.title }}" />
+                    {% endif %}
+                </div>
+                <div class="desc">
+                    <h4>{{ product.title }}</h4>
+                    
+                    <p>{{ product.description }}</p>
+                    <p>${{ product.price }}</p>
+
+                    
+                    <button type="button" class="btn btn-primary" onclick="window.location.href=\"{{ path('product_edit', {id: product.id}) }}\"">Edit</button>
+
+                    <form action="{{ path('product_delete', {id: product.id}) }}" method="post" style="display:inline-block;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </body>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit Product</title>
+    </head>
+    <body>
+
+        <style>
+            .container {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            .container div {
+                margin-bottom: 10px;
+                display: flex;
+            }
+
+            .container div label {
+                display: block;
+                width: 10rem;
+            }
+        </style>
+
+        <h1>Edit Product</h1>
+
+        <div class="container">
+        <form action="{{ path('product_save') }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{ product.id }}">
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" value="{{ product.title }}">
+                {% if errors.title is defined %}
+                    <div class="text-danger">
+                        {% for error in errors.title %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description">{{ product.description }}</textarea>
+                {% if errors.description is defined %}
+                    <div class="text-danger">
+                        {% for error in errors.description %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <label for="short_notes">Short Notes:</label>
+                <textarea id="short_notes" name="short_notes">{{ product.shortNotes }}</textarea>
+            </div>
+            <div>
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" value="{{ product.price }}">
+                {% if errors.price is defined %}
+                    <div class="text-danger">
+                        {% for error in errors.price %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <label for="discount_price">Discount Price:</label>
+                <input type="text" id="discount_price" name="discount_price" value="{{ product.discountPrice }}">
+            </div>
+            <div>
+                <label for="quantity">Quantity:</label>
+                <input type="text" id="quantity" name="quantity" value="{{ product.quantity }}">
+                {% if errors.quantity is defined %}
+                    <div class="text-danger">
+                        {% for error in errors.quantity %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image">
+                
+            </div>
+            <div>
+                <label for="image">Current Image:</label>
+                {% if product.image is not null %}
+                    <img src="{{ asset('uploads/' ~ product.image[0]) }}" width="100" alt="{{ product.title }}" />
+                {% endif %}
+            </div>
+            <div>
+                <button type="submit">Save</button>
+            </div>
+        </form>
+
+        <a href="{{ path('home') }}">Back to Products</a>
+        </div>
+    </body>
+{% endblock %}
